@@ -58,7 +58,9 @@ export OBJ_FILES        = $(OBJ_CORE) $(OBJ_UI_CORE) $(OBJ_RES_CORE) $(OBJ_PLUGI
 
 # Libraries
 export LIB_LADSPA       = $(OBJDIR)/$(ARTIFACT_ID)-ladspa.so
+export LIB_LADSPA_STATIC = $(OBJDIR)/$(ARTIFACT_ID)-ladspa.a
 export LIB_LV2          = $(OBJDIR)/$(ARTIFACT_ID)-lv2.so
+export LIB_LV2_STATIC   = $(OBJDIR)/$(ARTIFACT_ID)-lv2.a
 export LIB_VST          = $(OBJDIR)/$(ARTIFACT_ID)-vst-core-$(LSP_VERSION).so
 export LIB_JACK         = $(OBJDIR)/$(ARTIFACT_ID)-jack-core-$(LSP_VERSION).so
 export LIB_R3D_GLX      = $(OBJDIR)/$(R3D_ARTIFACT_ID)-glx.so
@@ -215,11 +217,13 @@ install_ladspa: all
 	@echo "Installing LADSPA plugins to $(DESTDIR)$(LADSPA_PATH)/"
 	mkdir -p $(DESTDIR)$(LADSPA_PATH)
 	$(INSTALL) $(LIB_LADSPA) $(DESTDIR)$(LADSPA_PATH)/
-	
+	$(INSTALL) $(LIB_LADSPA_STATIC) "$(DESTDIR)$(LIB_PATH)/"
+
 install_lv2: all
 	@echo "Installing LV2 plugins to $(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2"
 	mkdir -p "$(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2"
 	$(INSTALL) $(LIB_LV2) "$(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2/"
+	$(INSTALL) $(LIB_LV2_STATIC) "$(DESTDIR)$(LIB_PATH)/"
 	test ! "$(BUILD_R3D_BACKENDS)" || $(INSTALL) $(OBJDIR)/$(R3D_ARTIFACT_ID)*.so $(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2/
 	$(UTL_GENTTL) "$(DESTDIR)$(LV2_PATH)/$(ARTIFACT_ID).lv2"
 	

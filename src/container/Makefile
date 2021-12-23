@@ -70,13 +70,15 @@ $(OBJ_HELPERS):
 
 $(LIB_LADSPA):
 	@echo "  $(CXX) ladspa.cpp"
-	$(CXX) -o $(OBJDIR)/ladspa.o -c ladspa.cpp -fPIC $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) 
+	$(CXX) -o $(OBJDIR)/ladspa.o -c ladspa.cpp -fPIC $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE)
+	$(AR) rcs $(LIB_LADSPA_STATIC) $(OBJDIR)/lv2.o $(X_LV2_OBJFILES)
 	@echo "  $(CXX) $(notdir $(LIB_LADSPA))"
 	$(CXX) -o $(LIB_LADSPA) $(OBJDIR)/ladspa.o $(OBJFILES) $(SO_FLAGS) $(LIBS)
 
 $(LIB_LV2): $(X_LV2_DEPS)
 	@echo "  $(CXX) lv2.cpp"
 	$(CXX) -o $(OBJDIR)/lv2.o -c lv2.cpp -fPIC $(CPPFLAGS) $(CXXFLAGS) $(INCLUDE) $(CAIRO_HEADERS) $(LV2_HEADERS)
+	$(AR) rcs $(LIB_LV2_STATIC) $(OBJDIR)/lv2.o $(X_LV2_OBJFILES)
 	@echo "  $(CXX) $(notdir $(LIB_LV2))"
 	$(CXX) -o $(LIB_LV2) $(OBJDIR)/lv2.o $(X_LV2_OBJFILES) $(SO_FLAGS) $(X_LV2_LIBS)
 
