@@ -29,7 +29,7 @@ OBJDIR                  = $(BUILDDIR)
 
 # Installation locations
 BIN_PATH               ?= $(PREFIX)/bin
-LIB_PATH               ?= $(PREFIX)/lib
+LIB_PATH               ?= $(PREFIX)/lib64
 SHARE_PATH             ?= $(PREFIX)/share
 ETC_PATH               ?= /etc
 DOC_PATH               ?= $(SHARE_PATH)/doc
@@ -99,31 +99,29 @@ DOC_ID                 := $(ARTIFACT_ID)-doc-$(LSP_VERSION)
 
 default: all
 
-all: export CFLAGS          += -O2 -DLSP_NO_EXPERIMENTAL
-all: export CXXFLAGS        += -O2 -DLSP_NO_EXPERIMENTAL
-all: export EXE_FLAGS       += -pie -fPIE
+all: export CFLAGS          += -DLSP_NO_EXPERIMENTAL
+all: export CXXFLAGS        += -DLSP_NO_EXPERIMENTAL
+all: export EXE_FLAGS       += -fPIC
 all: compile
 
-experimental: export CFLAGS += -O2
-experimental: export CXXFLAGS += -O2
 experimental: compile
 
-trace: export CFLAGS        += -O2 -DLSP_TRACE -g3 -fstack-protector
-trace: export CXXFLAGS      += -O2 -DLSP_TRACE -g3 -fstack-protector
+trace: export CFLAGS        += -DLSP_TRACE
+trace: export CXXFLAGS      += --DLSP_TRACE
 trace: export EXE_FLAGS     += -g3
 trace: compile
 
 test: OBJDIR                 = $(TESTDIR)
-test: export CFLAGS         += -O2 -DLSP_TESTING -DLSP_TRACE -g3 -fstack-protector
-test: export CXXFLAGS       += -O2 -DLSP_TESTING -DLSP_TRACE -g3 -fstack-protector
+test: export CFLAGS         += -DLSP_TESTING -DLSP_TRACE
+test: export CXXFLAGS       += -DLSP_TESTING -DLSP_TRACE
 test: export EXE_TEST_FLAGS += -g3
 test: export MAKE_OPTS      += LSP_TESTING=1
 test: export BUILD_MODULES   = jack
 test: test_compile
 
 testdebug: OBJDIR                 = $(TESTDIR)
-testdebug: export CFLAGS         += -O0 -DLSP_TESTING -DLSP_TRACE -g3 -fstack-protector
-testdebug: export CXXFLAGS       += -O0 -DLSP_TESTING -DLSP_TRACE -g3 -fstack-protector
+testdebug: export CFLAGS         += -DLSP_TESTING -DLSP_TRACE
+testdebug: export CXXFLAGS       += -DLSP_TESTING -DLSP_TRACE
 testdebug: export EXE_TEST_FLAGS += -g3
 testdebug: export MAKE_OPTS      += LSP_TESTING=1
 testdebug: export BUILD_MODULES   = jack
@@ -152,9 +150,9 @@ gdb: export CFLAGS          += -O0 -g3 -DLSP_TRACE
 gdb: export CXXFLAGS        += -O0 -g3 -DLSP_TRACE
 gdb: compile
 
-profile: export CFLAGS      += -g -pg -DLSP_PROFILING -no-pie -fno-pie -fPIC
-profile: export CXXFLAGS    += -g -pg -DLSP_PROFILING -no-pie -fno-pie -fPIC
-profile: export EXE_FLAGS   += -g -pg -no-pie -fno-pie -fPIC
+profile: export CFLAGS      += -DLSP_PROFILING -no-pie -fno-pie -fPIC
+profile: export CXXFLAGS    += -DLSP_PROFILING -no-pie -fno-pie -fPIC
+profile: export EXE_FLAGS   += -fPIC
 profile: compile
 
 # Compilation and cleaning targets
