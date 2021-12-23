@@ -27,7 +27,7 @@ LD                       ?= $(TOOL_LD)
 
 CFLAGS                   += $(CC_ARCH) $(FLAG_CTUNE) $(CC_FLAGS) $(FLAG_VERSION)
 CXXFLAGS                 += $(CC_ARCH) $(FLAG_CTUNE) $(CC_FLAGS) $(FLAG_VERSION)
-SO_FLAGS                  = $(CC_ARCH) $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary -lc -fPIC
+SO_FLAGS                  = $(CC_ARCH) $(FLAG_RELRO) $(LDFLAGS) -Wl,--gc-sections -shared -Llibrary -lc -fPIC
 MERGE_FLAGS               = $(LD_ARCH) -r
 EXE_TEST_FLAGS            = $(LDFLAGS) $(CC_ARCH)
 EXE_FLAGS                 = $(LDFLAGS) $(CC_ARCH) $(FLAG_RELRO) -Wl,--gc-sections
