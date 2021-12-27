@@ -138,7 +138,7 @@ else
   export LV2_HEADERS      = $(shell pkg-config --cflags lv2)
   export LV2_LIBS         = $(shell pkg-config --libs lv2)
   export SNDFILE_HEADERS  = $(shell pkg-config --cflags sndfile)
-  export SNDFILE_LIBS     = /usr/lib64/libsndfile.a /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -lm -lmvec -lc
+  export SNDFILE_LIBS     = -Wl,--whole-archive,--as-needed,--allow-multiple-definition,/usr/lib64/libsndfile.a,/usr/lib64/libFLAC.a,/usr/lib64/libopus.a,/usr/lib64/libvorbis.a,/usr/lib64/libvorbisenc.a,/usr/lib64/libvorbisfile.a,/usr/lib64/libogg.a,-lpthread,-ldl,-lm,-lmvec,--no-whole-archive
   export JACK_HEADERS     = $(shell pkg-config --cflags jack)
   export JACK_LIBS        = $(shell pkg-config --libs jack)
   export OPENGL_HEADERS   = $(shell pkg-config --cflags gl 2>/dev/null || echo "")
